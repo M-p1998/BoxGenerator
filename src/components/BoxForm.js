@@ -12,6 +12,11 @@ const BoxForm = () => {
     const handler = (e) =>{
         e.preventDefault();
         
+        if (!isValidColor(inputColor)) {
+            alert("Invalid color format! Please enter a valid color in hex format (#RRGGBB).");
+            return;
+        }
+
         const setStyle = {
             display: "inline-block",
             margin: "20px",
@@ -29,14 +34,29 @@ const BoxForm = () => {
 
     }
 
+    // const isValidColor = (color) => /^#[0-9A-F]{6}$/i.test(color.trim());
+    const isValidColor = (color) => {
+        const tempDiv = document.createElement("div");
+        tempDiv.style.backgroundColor = color;
+        return tempDiv.style.backgroundColor !== "";
+      };
+
   return (
     
     <div className="row">
         <form onSubmit={handler} className="col md-4 offset 1" style={{padding: "20px"}} >
 
-        {inputColor && inputColor.length < 3 ? <p style={{ color: "red", marginBottom: "5px" }}>Color must be greater than two characters</p> : "" }
+        {/* {inputColor && inputColor.length < 3 && <p style={{ color: "red", marginBottom: "5px" }}>Color must be greater than two characters</p>} */}
+        {!isValidColor(inputColor) && <p style={{ color: "red", marginBottom: "5px" }}>Invalid color format! Please enter a valid color in hex format (#RRGGBB).</p>}
         {boxWidth && boxWidth <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Width must be greater than zero</p>}
         {boxHeight && boxHeight <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Height must be greater than zero</p>}
+
+
+        {/* {inputColor && inputColor.length < 3 ? <p style={{ color: "red", marginBottom: "5px" }}>Color must be greater than two characters</p> : "" }
+        {inputColor && !isValidColor(inputColor) ? <p style={{ color: "red", marginBottom: "5px" }}>Invalid color format! Please enter a valid color.</p> : ""}
+
+        {boxWidth && boxWidth <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Width must be greater than zero</p>}
+        {boxHeight && boxHeight <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Height must be greater than zero</p>} */}
 
             <label style={{fontFamily: "Papyrus", fontSize: "25px" }} htmlFor="inputColor">Color: </label>
             <input type="text" value={inputColor} name="inputColor" onChange={(e) => setInputColor(e.target.value)}
