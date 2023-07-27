@@ -1,0 +1,8 @@
+.inputStyle{
+
+    background-color: rgb(243 237 237);
+    height: 30px;
+    border-radius: "5px";
+    border: 1px solid black;
+    margin: 5px
+}

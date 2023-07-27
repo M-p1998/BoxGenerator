@@ -1,6 +1,7 @@
 
 import React, {useState} from 'react'
 
+
 const BoxForm = () => {
 
     const [inputColor,setInputColor] = useState("");
@@ -31,17 +32,36 @@ const BoxForm = () => {
   return (
     
     <div className="row">
-        <form onSubmit={handler} className="col md-4 offset 1">
-            <label htmlFor="inputColor">Color</label>
-            <input type="text" value={inputColor} name="inputColor" onChange={(e) => setInputColor(e.target.value)}/>
+        <form onSubmit={handler} className="col md-4 offset 1" style={{padding: "20px"}} >
 
-            <label htmlFor="boxWidth">Width</label>
-            <input type="text" value={boxWidth} name="boxWidth" onChange={(e) => setBoxWidth(e.target.value)}/>
+        {inputColor && inputColor.length < 3 ? <p style={{ color: "red", marginBottom: "5px" }}>Color must be greater than two characters</p> : "" }
+        {boxWidth && boxWidth <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Width must be greater than zero</p>}
+        {boxHeight && boxHeight <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Height must be greater than zero</p>}
 
-            <label htmlFor="boxHeight">Height</label>
-            <input type="text" value={boxHeight} name="boxHeight" onChange={(e) => setBoxHeight(e.target.value)} />
+            <label style={{fontFamily: "Papyrus", fontSize: "25px" }} htmlFor="inputColor">Color: </label>
+            <input type="text" value={inputColor} name="inputColor" onChange={(e) => setInputColor(e.target.value)}
+            style={{backgroundColor: "rgb(243 237 237)", height: "30px", borderRadius: "5px", border: "1px solid black", margin: "5px" }}/>
 
-            <input type="submit" value="Add" />
+            <label style={{fontFamily: "Papyrus", fontSize: "25px" }} htmlFor="boxWidth">Width: </label>
+            <input type="number" value={boxWidth} name="boxWidth" onChange={(e) => setBoxWidth(e.target.value)}
+            style={{backgroundColor: "rgb(243 237 237)", height: "30px", borderRadius: "5px", border: "1px solid black", margin: "5px" }}/>
+
+            <label style={{fontFamily: "Papyrus", fontSize: "25px" }} htmlFor="boxHeight">Height: </label>
+            <input type="number" value={boxHeight} name="boxHeight" onChange={(e) => setBoxHeight(e.target.value)}
+            style={{backgroundColor: "rgb(243 237 237)", height: "30px", borderRadius: "5px", border: "1px solid black", margin: "5px" }} />
+
+            <input type="submit" value="Add" 
+            style={{
+                fontFamily: "Verdana",
+                fontSize: "20px",
+                padding: "10px 20px",
+                background: "#007bff", // Blue background color
+                color: "black", // White text color
+                border: "none",
+                borderRadius: "3px",
+                cursor: "pointer",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Add a subtle box shadow
+              }}/>
 
         </form>
         <div>
