@@ -9,13 +9,18 @@ const BoxForm = () => {
     const [boxHeight, setBoxHeight] = useState("");
     const [boxList, setBoxList] = useState([]);
 
+    const [showAllInputRequired, setShowAllInputRequired] = useState(false);
+
+
     const handler = (e) =>{
         e.preventDefault();
-        
-        if (!isValidColor(inputColor)) {
-            alert("Invalid color format! Please enter a valid color in hex format (#RRGGBB).");
-            return;
-        }
+
+        setShowAllInputRequired(true); // Mark the "Add" button click
+
+      // Check if any input field is empty
+      if (!inputColor || !boxWidth || boxWidth <= 0 || !boxHeight || boxHeight <= 0) {
+        return;
+      }
 
         const setStyle = {
             display: "inline-block",
@@ -31,6 +36,8 @@ const BoxForm = () => {
         setBoxWidth("");
         setBoxHeight("");
 
+        setShowAllInputRequired(false);
+
 
     }
 
@@ -38,7 +45,7 @@ const BoxForm = () => {
     const isValidColor = (color) => {
         const tempDiv = document.createElement("div");
         tempDiv.style.backgroundColor = color;
-        return tempDiv.style.backgroundColor !== "";
+        return tempDiv.style.backgroundColor !== "" ;
       };
 
   return (
@@ -46,17 +53,15 @@ const BoxForm = () => {
     <div className="row">
         <form onSubmit={handler} className="col md-4 offset 1" style={{padding: "20px"}} >
 
-        {/* {inputColor && inputColor.length < 3 && <p style={{ color: "red", marginBottom: "5px" }}>Color must be greater than two characters</p>} */}
-        {!isValidColor(inputColor) && <p style={{ color: "red", marginBottom: "5px" }}>Invalid color format! Please enter a valid color in hex format (#RRGGBB).</p>}
-        {boxWidth && boxWidth <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Width must be greater than zero</p>}
-        {boxHeight && boxHeight <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Height must be greater than zero</p>}
+        {showAllInputRequired && (!inputColor || !boxWidth || boxWidth <= 0 || !boxHeight || boxHeight <= 0) && (
+          <p style={{ color: "red", marginBottom: "5px", width: "100%" }}>All input is required!</p>
+        )}
 
+        {!isValidColor(inputColor) && inputColor.length ? <p style={{ color: "red", marginBottom: "5px" }}>Invalid color format! Please enter a valid color!</p> : ""}
+        {boxWidth && boxWidth <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Width must be greater than zero!</p>}
+        {boxHeight && boxHeight <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Height must be greater than zero!</p>}
+        {/* {!isValidColor(inputColor) || inputColor || boxWidth || boxWidth <= 0 || boxHeight || boxHeight <= 0 ? <p> All input is required</p> : ""} */}
 
-        {/* {inputColor && inputColor.length < 3 ? <p style={{ color: "red", marginBottom: "5px" }}>Color must be greater than two characters</p> : "" }
-        {inputColor && !isValidColor(inputColor) ? <p style={{ color: "red", marginBottom: "5px" }}>Invalid color format! Please enter a valid color.</p> : ""}
-
-        {boxWidth && boxWidth <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Width must be greater than zero</p>}
-        {boxHeight && boxHeight <= 0 && <p style={{ color: "red", marginBottom: "5px" }}>Height must be greater than zero</p>} */}
 
             <label style={{fontFamily: "Papyrus", fontSize: "25px" }} htmlFor="inputColor">Color: </label>
             <input type="text" value={inputColor} name="inputColor" onChange={(e) => setInputColor(e.target.value)}
@@ -75,13 +80,16 @@ const BoxForm = () => {
                 fontFamily: "Verdana",
                 fontSize: "20px",
                 padding: "10px 20px",
-                background: "#007bff", // Blue background color
-                color: "black", // White text color
+                background: "#007bff", 
+                color: "black", //
                 border: "none",
                 borderRadius: "3px",
                 cursor: "pointer",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Add a subtle box shadow
-              }}/>
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", 
+              }}
+
+            // disabled={!inputColor || inputColorError || boxWidth <= 0 || boxHeight <= 0}
+              />
 
         </form>
         <div>
